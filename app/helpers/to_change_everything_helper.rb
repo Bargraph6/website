@@ -14,7 +14,7 @@ module ToChangeEverythingHelper
       'العربية'                                         => '/2016/09/21/to-change-everything-in-11-more-languages#arabic',
       'հայերեն'                                         => '/2016/09/21/to-change-everything-in-11-more-languages#armenian',
       'Български'                                       => '/2016/09/21/to-change-everything-in-11-more-languages#bulgarian',
-      'Cebuano'                                         => '/2016/09/21/to-change-everything-in-11-more-languages#cebuano',
+      'Cebuano'                                         => '/tce/cebuano',
       'Català'                                          => '/2016/01/25/to-change-everything-in-ten-more-languages#catalan',
       '中文'                                              => '/2016/01/25/to-change-everything-in-ten-more-languages#chinese',
       'Czech'                                           => '/tce/czech',
