@@ -1,8 +1,5 @@
 class InitSchema < ActiveRecord::Migration[7.0]
   def up
-    # These are extensions that must be enabled in order to support this database
-    enable_extension 'plpgsql'
-
     create_table 'active_storage_attachments' do |t|
       t.string 'name', null: false
       t.string 'record_type', null: false
@@ -34,7 +31,7 @@ class InitSchema < ActiveRecord::Migration[7.0]
       t.index %w[blob_id variation_digest], name: 'index_active_storage_variant_records_uniqueness', unique: true
     end
 
-    create_table 'articles', id: :serial do |t|
+    create_table 'articles' do |t|
       t.text 'title'
       t.text 'subtitle'
       t.text 'content'
@@ -71,7 +68,7 @@ class InitSchema < ActiveRecord::Migration[7.0]
       t.index ['collection_id'], name: 'index_articles_on_collection_id'
     end
 
-    create_table 'books', id: :serial do |t|
+    create_table 'books' do |t|
       t.text 'title'
       t.text 'subtitle'
       t.text 'content'
@@ -126,14 +123,14 @@ class InitSchema < ActiveRecord::Migration[7.0]
       t.index ['canonical_id'], name: 'index_books_on_canonical_id'
     end
 
-    create_table 'categories', id: :serial do |t|
+    create_table 'categories' do |t|
       t.string 'name'
       t.string 'slug'
 
       t.timestamps
     end
 
-    create_table 'categorizations', id: :serial do |t|
+    create_table 'categorizations' do |t|
       t.integer 'category_id'
       t.integer 'article_id'
 
@@ -159,7 +156,7 @@ class InitSchema < ActiveRecord::Migration[7.0]
       t.index ['canonical_id'], name: 'index_definitions_on_canonical_id'
     end
 
-    create_table 'episodes', id: :serial do |t|
+    create_table 'episodes' do |t|
       t.integer 'podcast_id', default: 1
       t.string 'title'
       t.string 'subtitle'
@@ -299,7 +296,7 @@ class InitSchema < ActiveRecord::Migration[7.0]
       t.index ['canonical_id'], name: 'index_logos_on_canonical_id'
     end
 
-    create_table 'pages', id: :serial do |t|
+    create_table 'pages' do |t|
       t.text 'title'
       t.text 'subtitle'
       t.text 'content'
@@ -324,7 +321,7 @@ class InitSchema < ActiveRecord::Migration[7.0]
       t.index ['canonical_id'], name: 'index_pages_on_canonical_id'
     end
 
-    create_table 'podcasts', id: :serial do |t|
+    create_table 'podcasts' do |t|
       t.string 'title'
       t.string 'subtitle'
       t.string 'slug'
@@ -389,7 +386,7 @@ class InitSchema < ActiveRecord::Migration[7.0]
       t.index ['canonical_id'], name: 'index_posters_on_canonical_id'
     end
 
-    create_table 'redirects', id: :serial do |t|
+     create_table 'redirects' do |t|
       t.string 'source_path'
       t.string 'target_path'
       t.boolean 'temporary'
@@ -442,7 +439,7 @@ class InitSchema < ActiveRecord::Migration[7.0]
       t.datetime 'expires_at', precision: nil
     end
 
-    create_table 'taggings', id: :serial do |t|
+    create_table 'taggings' do |t|
       t.integer 'tag_id'
       t.integer 'taggable_id'
       t.string 'taggable_type'
@@ -450,7 +447,7 @@ class InitSchema < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    create_table 'tags', id: :serial do |t|
+    create_table 'tags' do |t|
       t.string 'name'
       t.string 'slug'
       t.string 'locale', default: 'en'
@@ -462,7 +459,7 @@ class InitSchema < ActiveRecord::Migration[7.0]
       t.index ['name'], name: 'index_tags_on_name', unique: true
     end
 
-    create_table 'users', id: :serial do |t|
+    create_table 'users' do |t|
       t.string 'username'
       t.string 'password_digest'
       t.integer 'role', default: 0, null: false
@@ -470,7 +467,7 @@ class InitSchema < ActiveRecord::Migration[7.0]
       t.timestamps
     end
 
-    create_table 'videos', id: :serial do |t|
+    create_table 'videos' do |t|
       t.text 'title'
       t.text 'subtitle'
       t.text 'content'

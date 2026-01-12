@@ -1,21 +1,21 @@
 default: &default
-  adapter:  postgresql
+  adapter:  sqlite3
   encoding: unicode
   pool:     <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
 development:
   <<: *default
   host: localhost
-  database: crimethinc_development
+  database: storage/development.sqlite3
 
 test:
   <<: *default
   host: localhost
-  database: crimethinc_test
+  database: storage/test.sqlite3
 
 production:
   <<: *default
-  database: crimethinc_production
+  database: storage/production.sqlite3
   username: crimethinc
-  password: <%= ENV.fetch('CRIMETHINC_DATABASE_PASSWORD', '') %>
-  pool:     <%= ENV.fetch('POSTGRESQL_CONNECTION_LIMIT') { 120 } %>
+  password: <%= ENV.fetch('PRODUCTION_DATABASE_PASSWORD', '') %>
+  pool:     <%= ENV.fetch('DATABASE_CONNECTION_LIMIT') { 120 } %>

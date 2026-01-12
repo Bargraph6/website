@@ -6,7 +6,7 @@ ruby file: '.ruby-version'
 gem 'rails'
 
 # database
-gem 'pg'
+gem 'sqlite3'
 
 # webserver
 gem 'puma'
@@ -71,7 +71,6 @@ gem 'ostruct'
 # dev and testing
 group :development, :test do
   gem 'awesome_print'
-  gem 'byebug', platform: :mri
   gem 'capybara'
   gem 'dotenv-rails'
   gem 'erb_lint', require: false
@@ -82,7 +81,6 @@ group :development, :test do
   gem 'launchy'
   gem 'nokogiri'
   gem 'overcommit'
-  gem 'pry-byebug', platform: :mri
   gem 'rails-controller-testing'
   gem 'rails-erd'
   gem 'rspec-rails', '> 6'
