@@ -62,9 +62,6 @@ gem 'sidekiq', '< 9'
 # syndication
 gem 'down' # downloading images from ActiveStorage/S3
 
-# for ruby standard library deprecations
-gem 'ostruct'
-
 # dev and testing
 group :development, :test do
   gem 'awesome_print'

@@ -585,7 +585,6 @@ DEPENDENCIES
   markdown_media
   memory_profiler
   nokogiri
-  ostruct
   overcommit
   pandoc-ruby
   propshaft (~> 1.3)
