@@ -7,11 +7,8 @@
 
   <nav>
     <ul class="primary-navigation">
-      <li class="nav-link"><%= link_to t("header.books"),   "/books" %></li>
       <li class="nav-link"><%= link_to t("header.library"), "/library" %></li>
       <li class="nav-link"><%= link_to t("header.tools"),   "/tools" %></li>
-      <li class="nav-link"><%= link_to t("header.audio"),      "/podcasts" %></li>
-      <li class="nav-link"><%= link_to t("header.store"),      "/store" %></li>
       <li class="nav-link"><%= link_to t("header.search"),     "/search" %></li>
       <li class="nav-link"><%= link_to t("header.languages"),  "/languages" %></li>
       <li class="nav-link"><%= link_to t("header.about"),      "/about" %></li>
@@ -23,6 +20,4 @@
       </ul>
     <% end %>
   </nav>
-
-  <%= link_to t("header.support"), [:support], class: "button" %>
 </header>

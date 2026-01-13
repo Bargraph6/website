@@ -3,40 +3,20 @@ class ArticlesController < ApplicationController
 
   before_action :set_page_number,               only: :index
   before_action :redirect_malformed_pagination, only: :index
-  before_action :force_2025_theme_for_feeds,    only: :index
 
   def index
-    # TEMP: copied from home#index because the route /page/:page changed
-    #       from home#index in 2017 theme
-    #       to articles#index in 2025 theme
-    if Current.theme == '2017'
+    @body_id = 'home'
+    @homepage = true
 
-      @body_id = 'home'
-      @homepage = true
+    articles_for_current_page = Article.includes(:categories).english.live.published.root
 
-      articles_for_current_page = Article.includes(:categories).english.live.published.root
+    # Homepage featured article
+    @latest_article = articles_for_current_page.first if params[:page].blank?
 
-      # Homepage featured article
-      @latest_article = articles_for_current_page.first if params[:page].blank?
+    # Feed artciles
+    @articles = articles_for_current_page.page(params[:page]).per(6)
 
-      # Feed artciles
-      @articles = articles_for_current_page.page(params[:page]).per(6)
-
-      render "#{Current.theme}/home/index"
-    end
-
-    return unless Current.theme == '2025'
-
-    @articles = Article.includes(:tags, :categories)
-                       .for_index(**filters)
-                       .root
-                       .page(@page_number)
-                       .per(15)
-
-    locale = Locale.find_by(abbreviation: params[:lang])
-    @lang = locale.abbreviation if locale.present?
-
-    render "#{Current.theme}/articles/index"
+    render "#{Current.theme}/home/index"
   end
 
   def filters
@@ -69,9 +49,9 @@ class ArticlesController < ApplicationController
       @collection_posts = @article.collection_posts.chronological if @article.present?
     else
       @article = Article.live
-                        .where(year:  params[:year])
-                        .where(month: params[:month])
-                        .where(slug:  params[:slug]).first
+                   .where(year:  params[:year])
+                   .where(month: params[:month])
+                   .where(slug:  params[:slug]).first
 
       @collection_posts = @article.collection_posts.published.live.chronological if @article.present?
     end
@@ -147,9 +127,5 @@ class ArticlesController < ApplicationController
     return if @page_number == params[:page]
 
     redirect_to [:articles, { page: @page_number }]
-  end
-
-  def force_2025_theme_for_feeds
-    Current.theme = '2025' if params[:format].in? %w[json atom]
   end
 end
