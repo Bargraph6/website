@@ -12,10 +12,7 @@ gem 'sqlite3'
 gem 'puma'
 
 # assets
-gem 'autoprefixer-rails'
-gem 'bootstrap'
-gem 'sassc-rails'
-gem 'uglifier'
+gem "propshaft", "~> 1.3"
 
 # Javascript / Hotwire
 gem 'importmap-rails'
@@ -119,9 +116,6 @@ group :development do
 
   gem 'ruby-lsp'
 end
-
-# monitoring
-gem 'bugsnag'
 
 # DDOS protection
 gem 'rack-attack'
