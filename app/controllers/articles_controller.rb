@@ -7,16 +7,24 @@ class ArticlesController < ApplicationController
   def index
     @body_id = 'home'
     @homepage = true
+    @lang = Locale.find_by(abbreviation: params[:lang])&.abbreviation
 
-    articles_for_current_page = Article.includes(:categories).english.live.published.root
+    if params[:format].in? %w[json atom]
+      @articles = Article.includes(:tags, :categories)
+                    .for_index(**filters)
+                    .root
+                    .page(@page_number)
+                    .per(15)
 
-    # Homepage featured article
-    @latest_article = articles_for_current_page.first if params[:page].blank?
+      render "#{Current.theme}/articles/index"
+    else
+      # Homepage featured article
+      articles_for_current_page = Article.includes(:categories).english.live.published.root
+      @latest_article = articles_for_current_page.first if params[:page].blank?
+      @articles = articles_for_current_page.page(params[:page]).per(6)
 
-    # Feed artciles
-    @articles = articles_for_current_page.page(params[:page]).per(6)
-
-    render "#{Current.theme}/home/index"
+      "#{Current.theme}/home/index"
+    end
   end
 
   def filters
