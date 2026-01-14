@@ -3,11 +3,11 @@ html[dir="rtl"] .site-header .button { left:  var(--border-size-large); }
 
 .site-header {
     position: relative;
-    background-color: var(--color-true-black);
+    background-color: var(--fg-accent);
     padding: var(--border-size-large);
 
     .button {
-        background: var(--color-blue);
+        background: var(--bg-blue);
         position: absolute;
         top: var(--border-size-large);
     }
@@ -17,7 +17,7 @@ html[dir="rtl"] .site-header .button { left:  var(--border-size-large); }
     background-position: center center;
     background-repeat: no-repeat;
     background-size: contain;
-    background-image: url( "/crimethinc-logo-type-white.svg");
+    background-image: url( "/crimethinc-logo-type-black.svg");
     overflow: hidden;
     text-indent: -10000%;
     white-space: nowrap;
@@ -28,7 +28,7 @@ html[dir="rtl"] .site-header .button { left:  var(--border-size-large); }
 }
 
 .language-switcher a,
-.language-switcher { color: white !important; }
+.language-switcher { color: var(--fg-main, white) !important; }
 .primary-navigation {
     margin: 1rem 0 0 0;
     display: inline-block;
@@ -43,8 +43,8 @@ html[dir="rtl"] .site-header .button { left:  var(--border-size-large); }
 
     a {
         text-decoration: none;
-        &:link, &:visited { color: var(--color-white); }
-        &:hover, &:active { border-bottom: 1px solid var(--color-white); }
+        &:link, &:visited { color: var(--bg-main); }
+        &:hover, &:active { border-bottom: 1px solid var(--bg-main); }
     }
 }
 

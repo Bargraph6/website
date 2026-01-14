@@ -1,55 +1,17 @@
-* { box-sizing: border-box; }
-
-html,
-body {
-    font-size: 62.5%;
-    max-width: var(--large-desktop);
-    margin: 0 auto;
-}
-
-body {
-    margin-bottom: 0;
-    background: var(--color-white);
-    color: var(--color-black);
-    font-size: var(--base-font-size);
-    font-family: var(--font-body);
-}
-
 h1,h2,h3,h4,h5,h6,p,a,span {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
 }
 
-b,strong { font-weight: 700; }
-i, em { font-style: italic; }
 input[type="search"] { -webkit-appearance: textfield; }
 
 main {
     clear: both;
     width: 100%;
-    padding: 0 var(--border-size-medium);
-    margin: 0 auto var(--border-size-xlarge) auto;
 }
 
 a { &:link,&:visited,&:hover, &:active { color: var(--color-blue); } }
-
-#article .e-content li a,
-p a {
-    &:link,
-    &:visited,
-    &:hover,
-    &:active {
-        color: #555;
-        text-decoration: underline;
-        font-weight: 700;
-    }
-
-    &:hover,
-    &:active {
-        color: var(--color-true-black);
-    }
-}
 
 video,
 audio,
