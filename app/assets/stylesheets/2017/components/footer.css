@@ -8,12 +8,7 @@ footer#site-footer {
         align-items: top;
     }
 
-    @media screen and (min-width: 960px) { .footer-section { width: 33.33333333%; } }
-
-    .footer-section-container {
-        padding: var(--border-size-large);
-        @media screen and (min-width: 800px) { padding: var(--border-size-xlarge); }
-    }
+    .footer-section-container { padding: var(--border-size-large); }
 
     .footer-section-about .footer-section-container {
         background: var(--color-true-black);
@@ -47,35 +42,22 @@ footer#site-footer {
             color: var(--color-true-black);
             text-decoration: none;
             line-height: 1.5em;
-
-            &:hover,
-            &:active {
-                border-bottom: var(--border-size-xsmall) solid var(--color-true-black);
-            }
+            &:hover, &:active { border-bottom: var(--border-size-xsmall) solid var(--color-true-black); }
         }
 
-        dl {
-            font-size: 2rem;
-        }
-
+        dl { font-size: 2rem; }
         dt {
             font-weight: bold;
 
             b {
-                font: {
-                    weight: normal;
-                    weight: 300;
-                    size: 0.6em;
-                }
+                font-weight: normal;
+                font-weight: 300;
+                font-size: 0.6em;
             }
         }
 
-        dd a:after {
-            content: ",";
-        }
-        dd a:last-child:after {
-            content: "";
-        }
+        dd a:after { content: ","; }
+        dd a:last-child:after { content: ""; }
 
         dd {
             font-weight: normal;
@@ -99,10 +81,6 @@ footer#site-footer {
             background-repeat: no-repeat;
             background-size: contain;
             background-image: url("/crimethinc-logo-type-white.svg");
-
-            @media screen and (min-resolution: 144dpi), (min-resolution: 1.49dppx) {
-                background-image: url("/crimethinc-logo-type-white.svg");
-            }      
         }
 
         .first-time-link a,
@@ -144,11 +122,25 @@ footer#site-footer {
             }
 
             button {
-                @extend .button;
+                display: inline-block;
+                padding: 1rem;
+                text-decoration: none;
+                text-transform: uppercase;
+                color: var(--color-white) !important;
+                border: var(--border-size-xsmall) solid var(--color-true-black);
+                border-radius: 2px;
                 font-size: 1.5rem;
                 float: right;
                 background: var(--color-blue);
             }
         }
+    }
+
+    @media screen and (min-width: 800px) {
+        .footer-section-container { padding: var(--border-size-xlarge); }
+    }
+
+    @media screen and (min-width: 960px) {
+        .footer-section { width: 33.33333333%; }
     }
 }

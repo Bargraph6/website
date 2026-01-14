@@ -1,1 +1,30 @@
-<%= render "layouts/#{Current.theme}/application" %>
+<!DOCTYPE html>
+<%= tag.html dir:    html_dir,
+             lang:   html_lang,
+             id:     html_id,
+             class:  html_class,
+             prefix: html_prefix do %>
+  <head>
+    <%= render_themed "shared/head" %>
+
+    <%= yield :head %>
+  </head>
+
+  <body id="<%= body_id %>">
+    <%= render "shared/admin_header" %>
+    <%= render "shared/development_mode_banner" %>
+    <%= render_themed "shared/header" %>
+
+    <% if false %>
+       <div class='alert alert-notice'>
+        <%= render_markdown t("header.site_banner") %>
+      </div>
+    <% end %>
+
+    <main>
+      <%= yield %>
+    </main>
+
+    <%= render_themed "shared/footer" %>
+  </body>
+<% end %>
