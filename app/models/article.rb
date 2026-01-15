@@ -26,7 +26,6 @@ class Article < ApplicationRecord
   before_validation :normalize_newlines,       on: %i[create update]
 
   validates :short_path, uniqueness: true, unless: :short_path_blank?
-  # validates :tweet, length:   { maximum: 250 }
   validates :summary, length: { maximum: 200 }
 
   before_save :update_or_create_redirect
@@ -45,25 +44,15 @@ class Article < ApplicationRecord
     end
   end
 
-  # Overwrites slug_exists? from Slug. We allow duplicate slugs on different published_at dates.
-  def slug_exists?
-    Article.on(published_at).exists?(slug: slug)
-  end
-
-  def collection_root?
-    collection_posts.any?
-  end
-
-  def in_collection?
-    # TODO: this is a hack
-    collection_id.present?
-  end
+  def slug_exists? = Article.on(published_at).exists?(slug: slug)
+  def collection_root? = collection_posts.any?
+  def in_collection?   = collection_id.present?
+  def content_and_notes = [content, notes].join "\n\n"
+  def related = @related ||= find_related_articles
+  def aggregate_translation_page_views = [page_views, localizations.map(&:page_views)].flatten.sum
+  def lede = content.strip.split("\n").first
 
   delegate :blank?, to: :short_path, prefix: true
-
-  def content_and_notes
-    [content, notes].join "\n\n"
-  end
 
   def content_rendered include_media: true
     Kramdown::Document.new(
@@ -76,20 +65,9 @@ class Article < ApplicationRecord
     ).to_html.html_safe
   end
 
-  def related
-    @related ||= find_related_articles
-  end
-
-  def aggregate_translation_page_views
-    [page_views, localizations.map(&:page_views)].flatten.sum
-  end
-
-  # TEMP: TODO: move to database column and form field
-  def lede
-    content.strip.split("\n").first
-  end
-
   private
+
+  def absolute_short_path = "/#{short_path}"
 
   def find_related_articles
     return {} if categories.blank?
@@ -105,10 +83,6 @@ class Article < ApplicationRecord
 
       hash[category] = related_articles
     end
-  end
-
-  def absolute_short_path
-    "/#{short_path}"
   end
 
   def generate_published_dates

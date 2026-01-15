@@ -9,21 +9,13 @@ class ArticlesController < ApplicationController
     @homepage = true
     @lang = Locale.find_by(abbreviation: params[:lang])&.abbreviation
 
-    if params[:format].in? %w[json atom]
-      @articles = Article.includes(:tags, :categories)
-                    .for_index(**filters)
-                    .root
-                    .page(@page_number)
-                    .per(15)
+    respond_to do |format|
+      articles
 
-      render "#{Current.theme}/articles/index"
-    else
-      # Homepage featured article
-      articles_for_current_page = Article.includes(:categories).english.live.published.root
-      @latest_article = articles_for_current_page.first if params[:page].blank?
-      @articles = articles_for_current_page.page(params[:page]).per(6)
-
-      "#{Current.theme}/home/index"
+      format.html { render "#{Current.theme}/articles/index" }
+      format.xml { render "#{Current.theme}/articles/index" }
+      format.json { render "#{Current.theme}/articles/index" }
+      format.atom { render "#{Current.theme}/articles/index" }
     end
   end
 
@@ -103,6 +95,19 @@ class ArticlesController < ApplicationController
   end
 
   private
+
+  def articles
+    @articles ||= if params[:format].in? %w[json atom]
+                    Article.includes(:tags, :categories)
+                      .for_index(**filters)
+                      .root
+                      .page(@page_number)
+                      .per(15)
+                  else
+                    Article.includes(:categories).english.live.published.root
+                      .tap {|a| @latest_article = a.first if params[:page].blank? }
+                  end
+  end
 
   def download_docx
     send_data generate_docx, filename: "#{@article.slug}.docx", type: docx_mimetype
