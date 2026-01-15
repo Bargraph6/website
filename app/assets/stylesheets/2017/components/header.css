@@ -13,17 +13,17 @@ html[dir="rtl"] .site-header .button { left:  var(--border-size-large); }
     }
 }
 
-.header-logo a {    
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-image: url( "/crimethinc-logo-type-black.svg");
-    overflow: hidden;
-    text-indent: -10000%;
+.header-logo a {
+    color: var(--fg-main);
     white-space: nowrap;
-    
-    height: 3rem;
-    width: 15rem;
+    font-size: 3.8rem;
+    text-decoration: black overline underline wavy .1rem;
+    font-stretch: extra-condensed;
+    font-family: mono;
+    font-variant: all-petite-caps;
+    font-weight: bolder;
+    line-height: 1;
+    overflow: clip;
     display: inline-block;
 }
 
