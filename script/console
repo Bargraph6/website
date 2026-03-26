@@ -5,6 +5,7 @@
 #                 specific requirements for connecting to a console for that
 #                 environment.
 
+require 'pathname'
 require 'fileutils'
 include FileUtils
 

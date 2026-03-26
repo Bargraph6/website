@@ -2,6 +2,7 @@
 
 # script/seed: Drop the database, rebuild it, and fill it with seed data
 
+require 'pathname'
 require 'fileutils'
 include FileUtils
 
