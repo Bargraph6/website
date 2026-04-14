@@ -1,0 +1,11 @@
+This directory contains subdirectories of patch files
+
+The directory structure is:
+
+#+begin_example sh
+../patches
+└── ../patches/name-of-patch
+    ├── ../patches/name-of-patch/name-of-patch.org           # documentation of the patch
+    └── ../patches/name-of-patch/name-of-patch.patch         # the actual git patch
+#+end_example
+
