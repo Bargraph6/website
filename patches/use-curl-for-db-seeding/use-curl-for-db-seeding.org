@@ -1,0 +1,38 @@
+* Without patch
+
+Upstream uses the following ruby to pull in database seeding data:
+
+#+begin_example ruby
+    puts '==> Downloading remote production DB dump from S3…'
+    File.open('database-dumps/crimethinc_production_db_dump.sql', 'wb') do |file|
+      # TODO: use Down or HTTP.rb gem instead
+      file << URI.open(url).read # rubocop:disable Security/Open
+    end
+#+end_example
+
+This results in a very slow download, where there is no feedback about
+what, if anything, is happening. The command line just hangs:
+
+#+begin_example bash
+  [user@host website]$ bundle exec rails db:seed
+  MultiJson.decode is deprecated and will be removed in v2.0. Use MultiJson.load instead.
+  ==> Downloading DB dump from S3…
+  rake db:import:download
+  MultiJson.decode is deprecated and will be removed in v2.0. Use MultiJson.load instead.
+  ==> Downloading remote production DB dump from S3…
+#+end_example
+
+* With patch
+
+The patch uses =curl= to download the database dump, which gives us a
+progress bar for free:
+
+#+begin_example bash
+  [user@host website]$ bundle exec rails db:seed
+  MultiJson.decode is deprecated and will be removed in v2.0. Use MultiJson.load instead.
+  ==> Downloading DB dump from S3…
+  rake db:import:download
+  MultiJson.decode is deprecated and will be removed in v2.0. Use MultiJson.load instead.
+  ==> Downloading remote production DB dump from S3…
+  #################################################                                         37.7%
+#+end_example
