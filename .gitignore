@@ -17,6 +17,7 @@ node_modules
 yarn.lock
 storage/
 .irb_history
+.gems
 
 # rails credentials
 /config/master.key
