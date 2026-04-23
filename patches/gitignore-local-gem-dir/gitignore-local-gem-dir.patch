@@ -1,0 +1,24 @@
+From 905d0573108b07c18ab223bb2098865d5a342b00 Mon Sep 17 00:00:00 2001
+From: Bargraph6 <193206525+Bargraph6@users.noreply.github.com>
+Date: Thu, 23 Apr 2026 17:00:15 +0700
+Subject: [PATCH] update gitignore to ignore local gem dir
+
+---
+ .gitignore | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/.gitignore b/.gitignore
+index 2be1f24c..7c5bc4dd 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -17,6 +17,7 @@ node_modules
+ yarn.lock
+ storage/
+ .irb_history
++.gems
+ 
+ # rails credentials
+ /config/master.key
+-- 
+2.53.0
+

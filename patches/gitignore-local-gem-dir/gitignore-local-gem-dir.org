@@ -1,0 +1,26 @@
+* Without patch
+
+Upstream assumes a =.gem= directory in the default OS location.
+
+I prefer to put the =.gem= directory in the project root itself. This
+makes cleanup easier as ruby is not my main programming language, thus
+I don't get the de-deplication benefit from having it in the system
+directory.
+
+This also makes it easy to use ruby with an OS like guix.
+
+#+begin_example bash
+  [user@host website]$ git status -bs
+  ## main-upstream...upstream/main
+  ?? .gems/
+#+end_example
+
+* With patch
+
+#+begin_example bash
+  [user@host website]$ git checkout origin/main -- patches
+  [user@host website]$ git apply patches/*/*.patch
+  [user@host website]$ git commit -am "apply all patches"
+  [user@host website]$ git status -bs
+  ## main-upstream...upstream/main
+#+end_example
