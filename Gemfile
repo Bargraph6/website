@@ -12,10 +12,7 @@ gem 'pg'
 gem 'puma'
 
 # assets
-gem 'autoprefixer-rails'
-gem 'bootstrap'
-gem 'sassc-rails'
-gem 'uglifier'
+gem 'propshaft'
 
 # Javascript / Hotwire
 gem 'importmap-rails'
