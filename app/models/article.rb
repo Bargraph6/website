@@ -3,6 +3,8 @@ class Article < ApplicationRecord
   include Featureable
   include Translatable
 
+  self.ignored_columns += [:tweet]
+
   has_one  :redirect, dependent: :destroy
   has_many :taggings, dependent: :destroy, as: :taggable
   has_many :tags, through: :taggings
@@ -26,7 +28,6 @@ class Article < ApplicationRecord
   before_validation :normalize_newlines,       on: %i[create update]
 
   validates :short_path, uniqueness: true, unless: :short_path_blank?
-  # validates :tweet, length:   { maximum: 250 }
   validates :summary, length: { maximum: 200 }
 
   before_save :update_or_create_redirect
@@ -36,6 +37,18 @@ class Article < ApplicationRecord
   default_scope { order(published_at: :desc) }
 
   scope :last_2_weeks, -> { where('published_at BETWEEN ? AND ?', Time.now.utc - 2.weeks, Time.now.utc) }
+
+  def previous
+    return nil if draft?
+
+    Article.previous(self).first
+  end
+
+  def next
+    return nil if draft?
+
+    Article.next(self).first
+  end
 
   def path
     if published?
@@ -120,7 +133,6 @@ class Article < ApplicationRecord
   end
 
   def normalize_newlines
-    tweet.presence&.gsub!("\r\n", "\n")
     summary.presence&.gsub!("\r\n", "\n")
   end
 

@@ -8,18 +8,14 @@ footer#site-footer {
     align-items: top;
   }
 
-  @media screen and (min-width: $small-tablet) {
+  @media screen and (min-width: 800px) {
     .footer-section {
       width: 33.33333333%;
     }
   }
 
   .footer-section-container {
-    padding: var(--border-size-large);
-
-    @media screen and (min-width: $small-tablet) {
-      padding: var(--border-size-xlarge);
-    }
+    padding: var(--footer-section-padding);
   }
 
   .footer-section-about .footer-section-container {
@@ -71,11 +67,9 @@ footer#site-footer {
       font-weight: bold;
 
       b {
-        font: {
-          weight: normal;
-          weight: 300;
-          size: 0.6em;
-        }
+        font-weight: normal;
+        font-weight: 300;
+        font-size: 0.6em;
       }
     }
 
@@ -99,17 +93,16 @@ footer#site-footer {
 
   .footer-section.footer-section-about {
     .about-us-heading {
-      @include image-replacement-graphic(
-        "crimethinc-logo-type-white.svg",
-        "crimethinc-logo-type-white.svg",
-        16rem,
-        3.2rem
-      );
+      background: var(--crimethinc-icon-svg);
+      width: 16rem;
+      height: 3.2rem;
+      overflow: hidden;
+      text-indent: -10000%;
+      white-space: nowrap;
     }
 
     .first-time-link a,
     .about-us-link a {
-      @extend .button;
       background: var(--color-white);
       color: var(--color-true-black) !important;
       text-decoration: none;
@@ -145,8 +138,7 @@ footer#site-footer {
         margin-bottom: 1rem;
       }
 
-      button {
-        @extend .button;
+      .newsletter-signup-button {
         font-size: 1.5rem;
         float: right;
         background: var(--color-blue);

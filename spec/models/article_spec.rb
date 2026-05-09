@@ -2,15 +2,6 @@ require 'rails_helper'
 
 describe Article do
   describe 'validations' do
-    # TEMP TODO re-enable when tweet character count is smarter
-    # it 'validates tweet is less than 250 characters' do
-    #   invalid_article = build(:article, tweet: 'a' * 251)
-    #   valid_article   = build(:article, tweet: 'a' * 250)
-    #
-    #   expect(valid_article).to be_valid
-    #   expect(invalid_article).not_to be_valid
-    # end
-
     it 'validates summary is less than 200 characters' do
       invalid_article = build(:article, summary: 'a' * 201)
       valid_article   = build(:article, summary: 'a' * 200)
@@ -19,18 +10,14 @@ describe Article do
       expect(invalid_article).not_to be_valid
     end
 
-    it 'replace \r\n with \n in tweet and summary' do
-      new_article = build(:article,
-                          tweet:   "ab\r\ncd" * 50,
-                          summary: "a\r\nbc" * 50)
+    it 'replace \r\n with \n in summary' do
+      new_article = build(:article, summary: "a\r\nbc" * 50)
 
       expect(new_article).to be_valid
-      expect(new_article.tweet.length).to eq(250)
 
       new_article.save!
       expect(new_article.reload).to be_valid
       expect(new_article.summary.length).to eq(200)
-      expect(new_article.tweet.length).to eq(250)
     end
   end
 
@@ -153,20 +140,60 @@ describe Article do
     end
   end
 
-  describe '.next' do
-    it 'returns the article published after the given one' do
-      older = create(:article, published_at: 2.days.ago, publication_status: 'published')
-      newer = create(:article, published_at: 1.day.ago, publication_status: 'published')
+  shared_examples 'it can traverse the publication timeline' do |direction|
+    include ActiveSupport::Testing::TimeHelpers
 
-      expect(described_class.next(older).first).to eq newer
+    subject(:actual_order) do
+      articles_to_traverse.map do |t|
+        described_class.find_by(title: t)&.send(method_under_test)&.title
+      end
+    end
+
+    let(:method_under_test) { direction.to_sym }
+
+    let(:publication_timeline) { %w[t7 t6 t5 t4 t3 t2 t1 t0] }
+    let(:unpublished_article) { create(:article, publication_status: 'draft') }
+
+    before do
+      travel_to(1.day.ago) do
+        # t0     | represents an article published "now" (the chronologically last published_at date)
+        # t1...n | represents articles with a published at of "t0 - n.days"
+        now = Time.now.utc
+        [
+          { title: 't0', published_at: now.end_of_day, locale: :en, canonical_id: nil },
+          { title: 't1', published_at: now.end_of_day, locale: :en, canonical_id: nil },
+          { title: 't2', published_at: now.end_of_day, locale: :en, canonical_id: nil },
+          { title: 't3', published_at: now.beginning_of_day, locale: :en, canonical_id: nil },
+          { title: 't4', published_at: (now - 1.day).end_of_day, locale: :en, canonical_id: nil },
+          { title: 't5', published_at: (now - 1.day).beginning_of_day, locale: :en, canonical_id: nil },
+          { title: 't6', published_at: (now - 2.days).end_of_day, locale: :en, canonical_id: nil },
+          { title: 't7', published_at: (now - 2.days).beginning_of_day, locale: :en, canonical_id: nil }
+        ].reverse.map! { |params| create(:article, **params) }
+      end
+    end
+
+    it 'traverses the publication timeline' do
+      expect(actual_order).to eq expected_order
+    end
+
+    context 'when the article is unpublished' do
+      subject { unpublished_article.next }
+
+      it { is_expected.to be_nil }
     end
   end
 
-  describe '.previous' do
-    it 'returns the article published on the same date before the given one' do
-      article = create(:article, published_at: 1.day.ago, publication_status: 'published')
+  describe '#next' do
+    it_behaves_like 'it can traverse the publication timeline', :next do
+      let(:articles_to_traverse) { publication_timeline }
+      let(:expected_order) { publication_timeline.tap(&:shift).then { it.push nil } }
+    end
+  end
 
-      expect(described_class.previous(article)).to exist
+  describe '#previous' do
+    it_behaves_like 'it can traverse the publication timeline', :previous do
+      let(:articles_to_traverse) { publication_timeline.reverse }
+      let(:expected_order) { publication_timeline.reverse.tap(&:shift).then { it.push nil } }
     end
   end
 
