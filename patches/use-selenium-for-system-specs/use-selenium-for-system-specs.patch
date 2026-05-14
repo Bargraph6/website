@@ -1,0 +1,67 @@
+From 347fc8f5b14e9e0b5f3bdf3d3209018e411a39d5 Mon Sep 17 00:00:00 2001
+From: Bargraph6 <193206525+Bargraph6@users.noreply.github.com>
+Date: Thu, 14 May 2026 16:43:43 +0700
+Subject: [PATCH] testing: Use selenium, rather than cuprite, for system specs
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="------------2.54.0"
+
+This is a multi-part message in MIME format.
+--------------2.54.0
+Content-Type: text/plain; charset=UTF-8; format=fixed
+Content-Transfer-Encoding: 8bit
+
+
+I don't know what cuprite is, but I know it doesn't work out of the
+box on arch linux when running the specs.
+
+Our system specs are so few, and so simple, that I'd rather not have
+to fiddle with things just to get them running.
+
+Selenium works out of the box.
+---
+ Gemfile                  | 2 +-
+ spec/support/capybara.rb | 5 ++---
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+
+--------------2.54.0
+Content-Type: text/x-patch; name="0001-testing-Use-selenium-rather-than-cuprite-for-system-.patch"
+Content-Transfer-Encoding: 8bit
+Content-Disposition: attachment; filename="0001-testing-Use-selenium-rather-than-cuprite-for-system-.patch"
+
+diff --git a/Gemfile b/Gemfile
+index 9c5e4a84..1980fbc0 100644
+--- a/Gemfile
++++ b/Gemfile
+@@ -73,7 +73,7 @@ group :development, :test do
+   gem 'awesome_print'
+   gem 'byebug', platform: :mri
+   gem 'capybara'
+-  gem 'cuprite'
++  gem "selenium-webdriver"
+   gem 'dotenv-rails'
+   gem 'erb_lint', require: false
+   gem 'factory_bot_rails'
+diff --git a/spec/support/capybara.rb b/spec/support/capybara.rb
+index 0d156692..600492dd 100644
+--- a/spec/support/capybara.rb
++++ b/spec/support/capybara.rb
+@@ -1,12 +1,11 @@
+ require 'capybara/rspec'
+-require 'capybara/cuprite'
+ 
+-Capybara.javascript_driver = :cuprite
++Capybara.javascript_driver = :selenium
+ 
+ RSpec.configure do |config|
+   config.before(:each, type: :system) do
+     if self.class.metadata[:js]
+-      driven_by :cuprite
++      driven_by :selenium
+     else
+       driven_by :rack_test
+     end
+
+--------------2.54.0--
+
+

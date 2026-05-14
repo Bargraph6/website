@@ -1,0 +1,18 @@
+* Without patch
+
+I don't know what cuprite is, but I know it doesn't work out of the
+box on arch linux when running the specs.
+
+Our system specs are so few, and so simple, that I'd rather not have
+to fiddle with things just to get them running.
+
+Selenium works out of the box.
+
+Upstream uses a gem called =culprite= as the web driver for system
+specs. This does not work out of the box for a pretty standard arch
+linux setup.
+
+* With patch
+
+Selenium works out of the box. The patch sets up a visual browser
+driver. To switch to headless just tweak the patch a bit.
