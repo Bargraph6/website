@@ -1,5 +1,3 @@
 FactoryBot.define do
-  factory :logo do
-    title { 'MyLogo' }
-  end
+  factory :logo, parent: :tool, class: 'Logo'
 end

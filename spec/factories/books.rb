@@ -1,5 +1,3 @@
 FactoryBot.define do
-  factory :book do
-    title { 'MyBook' }
-  end
+  factory :book, parent: :tool, class: 'Book'
 end
