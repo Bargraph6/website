@@ -99,9 +99,8 @@ class ArticlesController < ApplicationController
 
     # TODO: extract to an async background job
     # save view stats
-    # rubocop:disable Rails/SkipsModelValidations
+    # rubocop:disable-next Rails/SkipsModelValidations
     Article.increment_counter(:page_views, @article.id) unless signed_in?
-    # rubocop:enable Rails/SkipsModelValidations
 
     if @article.content_in_html?
       render html: @article.content.html_safe, layout: false
@@ -143,13 +142,15 @@ class ArticlesController < ApplicationController
   end
 
   def redirect_malformed_pagination
-    return if params.expect(:format).in? %w[json atom]
+    return if non_html_format?
     return if @page_number == params[:page]
 
     redirect_to [:articles, { page: @page_number }]
   end
 
   def force_2025_theme_for_feeds
-    Current.theme = '2025' if params.expect(:format).in? %w[json atom]
+    Current.theme = '2025' if non_html_format?
   end
+
+  def non_html_format? = request.format.atom? || request.format.json?
 end
